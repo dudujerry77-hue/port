@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Irmiya Bulus – Freelance Frontend Developer & UI/UX Designer. I build modern, fast, and beautiful websites that help businesses grow.">
+<title>Irmiya Bulus — Frontend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SVG ICON DEFS (hidden) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+  <symbol id="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="ico-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="ico-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="ico-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></symbol>
+  <symbol id="ico-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M12 12v4M8 12h8"/></symbol>
+  <symbol id="ico-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+  <symbol id="ico-figma" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z"/><path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z"/><path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/><path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 0 1-7 0z"/><path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/></symbol>
+  <symbol id="ico-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="ico-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></symbol>
+  <symbol id="ico-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></symbol>
+  <symbol id="ico-star" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="ico-brush" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.06 11.9l8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1 1 2.26 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></symbol>
+  <symbol id="ico-dollar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+  <symbol id="ico-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></symbol>
+  <symbol id="ico-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></symbol>
+  <symbol id="ico-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+  <symbol id="ico-twitter" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></symbol>
+  <symbol id="ico-linkedin" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="ico-fiverr" viewBox="0 0 24 24" fill="currentColor"><path d="M23 9.5h-2.3c0-3.3-2.7-6-6-6V1.2c4.6 0 8.3 3.7 8.3 8.3zM1 9.5V24h6.5V9.5H1zm8 0V24H15V9.5H9zm1.5-1.5C10.5 3.7 14.2 0 18.8 0v6.5C18.8 6.5 11 6.5 10.5 8z"/></symbol>
+  <symbol id="ico-map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="ico-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></symbol>
+  <symbol id="ico-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="ico-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="ico-chevron-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+  <symbol id="ico-whatsapp" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></symbol>
+  <symbol id="ico-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+  <symbol id="ico-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+</svg>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Jeremaih<span>.</span></a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="btn btn-primary" style="padding:0.55rem 1.3rem;font-size:0.85rem;">Hire Me</a>
+  </div>
+  <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">
+    <svg><use href="#ico-sun"/></svg>
+  </button>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#projects" onclick="closeMob()">Projects</a>
+  <a href="#why" onclick="closeMob()">Why Me</a>
+  <a href="#pricing" onclick="closeMob()">Pricing</a>
+  <a href="#faq" onclick="closeMob()">FAQ</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <a href="#contact" class="hero-badge">
+          <span class="dot"></span>
+          Available for new projects
+        </a>
+        <div class="hero-typewriter">
+          <span>$ </span><span id="typed"></span><span class="cursor">|</span>
+        </div>
+        <h1 class="hero-title"><span class="naspan"> I'm <span class="namspan"></span></span><br>
+          I Build <span class="hl">Modern Websites</span> That Help Businesses Grow
+        </h1>
+        <p class="hero-desc">
+          Freelance frontend developer and UI/UX designer specializing in clean, fast, and high-converting web experiences. From landing pages to full e-commerce platforms — I bring your vision to life.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Hire Me</a>
+          <a href="#projects" class="btn btn-outline">View Projects</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">20<span>+</span></div>
+            <div class="stat-label">Projects Delivered</div>
+          </div>
+          <div>
+            <div class="stat-num">100<span>%</span></div>
+            <div class="stat-label">Client Satisfaction</div>
+          </div>
+          <div>
+            <div class="stat-num">3<span>d</span></div>
+            <div class="stat-label">Average Delivery</div>
+          </div>
+        </div>
+      </div>
+      <div class="code-card reveal reveal-delay-2">
+        <div class="code-card-header">
+          <div class="dot-r"></div><div class="dot-y"></div><div class="dot-g"></div>
+          <span class="code-filename">portfolio.js</span>
+        </div>
+        <div class="code-body">
+          <div><span class="c-key">const</span> <span class="c-fn">developer</span> <span class="c-obj">= {</span></div>
+          <div>&nbsp;&nbsp;<span class="c-str">name</span><span class="c-obj">:</span> <span class="c-str">"<span class="codename"></span> Bulus"</span><span class="c-obj">,</span></div>
+          <div>&nbsp;&nbsp;<span class="c-str">role</span><span class="c-obj">:</span> <span class="c-str">"Frontend Dev"</span><span class="c-obj">,</span></div>
+          <div>&nbsp;&nbsp;<span class="c-str">skills</span><span class="c-obj">: [</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"HTML"</span><span class="c-obj">,</span> <span class="c-str">"CSS"</span><span class="c-obj">,</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"JavaScript"</span><span class="c-obj">,</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-str">"React"</span><span class="c-obj">,</span> <span class="c-str">"Next.js"</span></div>
+          <div>&nbsp;&nbsp;<span class="c-obj">],</span></div>
+          <div>&nbsp;&nbsp;<span class="c-str">available</span><span class="c-obj">:</span> <span class="c-val">true</span><span class="c-obj">,</span></div>
+          <div>&nbsp;&nbsp;<span class="c-str">location</span><span class="c-obj">:</span> <span class="c-str">"Nigeria"</span><span class="c-obj">,</span></div>
+          <div>&nbsp;&nbsp;<span class="c-fn">getQuote</span><span class="c-obj">: () => {</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">return</span> <span class="c-str">"Let's build"</span></div>
+          <div>&nbsp;&nbsp;<span class="c-obj">}</span></div>
+          <div><span class="c-obj">};</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div style="margin-bottom:3rem;">
+      <span class="eyebrow">What I Do</span>
+      <h2 class="section-title">Services I Offer</h2>
+      <p class="section-sub">From idea to launch — full-stack frontend solutions built to perform and impress.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-icon"><svg><use href="#ico-globe"/></svg></div>
+        <h3>Business Websites</h3>
+        <p>Professional multi-page websites that represent your brand and drive conversions. Built fast, clean, and SEO-ready.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><svg><use href="#ico-target"/></svg></div>
+        <h3>Landing Pages</h3>
+        <p>High-converting single-page experiences designed to capture leads and turn visitors into paying customers.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon"><svg><use href="#ico-cart"/></svg></div>
+        <h3>E-commerce Stores</h3>
+        <p>Fully functional online stores with cart systems, product management, checkout, and payment integration.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-3">
+        <div class="service-icon"><svg><use href="#ico-briefcase"/></svg></div>
+        <h3>Portfolio Websites</h3>
+        <p>Stunning personal portfolios for creatives, developers, and professionals to showcase work and attract clients.</p>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg><use href="#ico-refresh"/></svg></div>
+        <h3>Website Redesign</h3>
+        <p>Refresh outdated websites with modern UI/UX, improved speed, responsiveness, and a polished new look.</p>
+      </div>
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-icon"><svg><use href="#ico-figma"/></svg></div>
+        <h3>UI/UX Design</h3>
+        <p>Figma to HTML/CSS conversions with pixel-perfect accuracy, and custom interface design from scratch.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <span class="eyebrow">My Work</span>
+    <h2 class="section-title">Featured Projects</h2>
+    <p class="section-sub">A selection of real projects I've designed and built — each one crafted with precision and purpose.</p>
+    <div class="projects-grid" id="projectsGrid">
+      <!-- Rendered from project data by script.js (renderFeaturedProjects) -->
+    </div>
+  </div>
+</section>
+
+<!-- WHY ME -->
+<section id="why">
+  <div class="container">
+    <span class="eyebrow">Why Choose Me</span>
+    <h2 class="section-title">What You Get</h2>
+    <p class="section-sub">More than just code — a committed partner who cares about your results.</p>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon"><svg><use href="#ico-zap"/></svg></div>
+        <h3>Fast Delivery</h3>
+        <p>Most projects delivered in 3–7 days. I respect your time and deadlines.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-icon"><svg><use href="#ico-phone"/></svg></div>
+        <h3>Mobile Responsive</h3>
+        <p>Every project is pixel-perfect on phones, tablets, and desktops.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-icon"><svg><use href="#ico-search"/></svg></div>
+        <h3>SEO Friendly</h3>
+        <p>Built with semantic HTML, fast load times, and proper meta structure.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-3">
+        <div class="why-icon"><svg><use href="#ico-brush"/></svg></div>
+        <h3>Modern Design</h3>
+        <p>Premium UI/UX that makes your brand look established and trustworthy.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon"><svg><use href="#ico-dollar"/></svg></div>
+        <h3>Affordable Pricing</h3>
+        <p>Agency-quality results at freelance rates. More value for your budget.</p>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-icon"><svg><use href="#ico-code"/></svg></div>
+        <h3>Clean Code</h3>
+        <p>Well-structured, commented code you can hand off to any developer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <span class="eyebrow">How It Works</span>
+    <h2 class="section-title">My Process</h2>
+    <p class="section-sub">A streamlined 4-step workflow — from your first message to a live website.</p>
+    <div class="process-steps">
+      <div class="process-step reveal"><div class="step-num">1</div><h3>Discovery</h3><p>We discuss your goals, audience, brand, and project requirements.</p></div>
+      <div class="process-step reveal reveal-delay-1"><div class="step-num num2">2</div><h3>Design</h3><p>I create the visual layout and UI, incorporating your feedback.</p></div>
+      <div class="process-step reveal reveal-delay-2"><div class="step-num num3">3</div><h3>Development</h3><p>Full build with animations, responsiveness, and all features.</p></div>
+      <div class="process-step reveal reveal-delay-3"><div class="step-num num4">4</div><h3>Launch</h3><p>Final review, deployment, and handoff with full support.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <span class="eyebrow">Client Reviews</span>
+    <h2 class="section-title">What Clients Say</h2>
+    <p class="section-sub">Real feedback from real people who trusted me with their projects.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card reveal" style="--accents:green">
+        <div class="stars">
+          <svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg>
+        </div>
+        <p>"Jeremaih built our online store from scratch in under a week. The design was stunning and sales went up immediately. Highly recommend."</p>
+        <div class="client-info">
+          <div class="client-avatar" style="--accents:green;">AO</div>
+          <div><div class="client-name">Amina Okafor</div><div class="client-role">Founder, StyleHaus</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-1" style="--accents:blue">
+        <div class="stars">
+          <svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg>
+        </div>
+        <p>"Professional, fast, and incredibly talented. The landing page he created for our agency generated 3x more inquiries in the first month."</p>
+        <div class="client-info">
+          <div class="client-avatar" style="--accents:blue">KM</div>
+          <div><div class="client-name">Kabir Musa</div><div class="client-role">CEO, BrandForce Agency</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal reveal-delay-2" style="--accents:darkred">
+        <div class="stars">
+          <svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg><svg><use href="#ico-star"/></svg>
+        </div>
+        <p>"I needed a barbershop site with bookings and an admin panel. He delivered beyond expectations — the UI is gorgeous and it just works."</p>
+        <div class="client-info">
+          <div class="client-avatar" style="--accents:darkred">TC</div>
+          <div><div class="client-name">Tunde Chisom</div><div class="client-role">Owner, Elite Cuts Barber</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS — INFINITE MARQUEE -->
+<section id="skills">
+  <div class="container">
+    <span class="eyebrow">Tech Stack</span>
+    <h2 class="section-title">Tools &amp; Skills</h2>
+    <p class="section-sub">The technologies I use to build fast, modern, and scalable web projects.</p>
+  </div>
+
+  <!-- ROW 1 — left to right -->
+  <div class="marquee-wrapper marquee-row" style="margin-top:3rem;">
+    <div class="marquee-track" id="row1">
+      <!-- pills injected by JS -->
+    </div>
+  </div>
+
+  <!-- ROW 2 — right to left -->
+  <div class="marquee-wrapper marquee-row" style="margin-top:1rem;">
+    <div class="marquee-track marquee-track-rev" id="row2">
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <span class="eyebrow">Transparent Rates</span>
+    <h2 class="section-title">Pricing Plans</h2>
+    <p class="section-sub">Simple, honest pricing. No hidden fees. Pay for what you need.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="pricing-plan">Basic</div>
+        <div class="pricing-price"><span>$</span>150</div>
+        <div class="pricing-desc">Perfect for individuals &amp; startups</div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 1–3 Page Website</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Mobile Responsive</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Contact Form</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Basic SEO</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 3-Day Delivery</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 1 Revision Round</li>
+        </ul>
+        <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center;">Get Started</a>
+      </div>
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-plan">Standard</div>
+        <div class="pricing-price"><span>$</span>350</div>
+        <div class="pricing-desc">Ideal for growing businesses</div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Up to 7 Pages</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Mobile Responsive</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Animations &amp; Interactions</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Admin Dashboard</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Full SEO Optimization</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 5-Day Delivery</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 3 Revision Rounds</li>
+        </ul>
+        <a href="#contact" class="btn btn-primary" style="width:100%;justify-content:center;">Get Started</a>
+      </div>
+      <div class="pricing-card reveal reveal-delay-2">
+        <div class="pricing-plan">Premium</div>
+        <div class="pricing-price"><span>$</span>700</div>
+        <div class="pricing-desc">For established brands &amp; e-commerce</div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Full E-commerce Store</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Payment Integration</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Custom Admin Panel</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Three.js / Animations</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Full SEO + Performance</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 7-Day Delivery</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Unlimited Revisions</li>
+        </ul>
+        <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center;">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container" style="max-width:860px;">
+    <span class="eyebrow">Got Questions?</span>
+    <h2 class="section-title">Frequently Asked</h2>
+    <p class="section-sub">Everything you need to know before we work together.</p>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">How long does it take to build my website?<span class="faq-arrow"><svg><use href="#ico-chevron-down"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-inner">Most projects are completed in 3 to 7 business days depending on complexity. Simple landing pages can be done in 1–2 days. I'll give you a clear timeline after understanding your project.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you work with international clients?<span class="faq-arrow"><svg><use href="#ico-chevron-down"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-inner">Absolutely. I work with clients worldwide. Communication happens via WhatsApp or email, and payments are accepted through PayPal, Paystack, or crypto.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Will my website work on mobile phones?<span class="faq-arrow"><svg><use href="#ico-chevron-down"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-inner">Every project I build is fully responsive — tested across all screen sizes from small phones to large monitors. Mobile-first is my default approach.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Can you redesign my existing website?<span class="faq-arrow"><svg><use href="#ico-chevron-down"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes! Website redesign is one of my core services. I can modernize your existing site with improved UI, faster performance, and a fresh look while keeping your content intact.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">What do you need from me to get started?<span class="faq-arrow"><svg><use href="#ico-chevron-down"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-inner">A brief description of your project, any reference websites you like, your logo or brand colors (if you have them), and your content. If you don't have these ready, I can help you figure them out.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Do you provide hosting or domain registration?<span class="faq-arrow"><svg><use href="#ico-chevron-down"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-inner">I can deploy your site to Netlify for free hosting, or guide you through setting up a custom domain and hosting. I'm happy to help with the full technical setup.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <span class="eyebrow">Let's Talk</span>
+        <h2>Ready to Start Your Project?</h2>
+        <p>Fill in the form or reach out directly on WhatsApp. I respond within a few hours and am ready to help you build something great.</p>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><svg><use href="#ico-map-pin"/></svg></div>
+          Kebbi State, Nigeria
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><svg><use href="#ico-mail"/></svg></div>
+          irmiya@example.com
+        </div>
+        <div class="contact-detail">
+          <div class="contact-detail-icon"><svg><use href="#ico-clock"/></svg></div>
+          Avg. response: under 3 hours
+        </div>
+        <a href="https://wa.me/2348083252950?text=Hi%20Irmiya!%20I%20want%20to%20discuss%20a%20project." class="btn-whatsapp" target="_blank">
+          <svg><use href="#ico-whatsapp"/></svg> Chat on WhatsApp
+        </a>
+      </div>
+      <div class="contact-form reveal">
+        <h3 style="font-family:var(--font-display);font-weight:700;margin-bottom:1.5rem;font-size:1.2rem;">Send a Message</h3>
+        <div class="form-row">
+          <div class="form-group"><label>Full Name</label><input type="text" id="f-name" placeholder="Your name"></div>
+          <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="your@email.com"></div>
+        </div>
+        <div class="form-group">
+          <label>Service Needed</label>
+          <select id="f-service">
+            <option value="">Select a service...</option>
+            <option>Business Website</option>
+            <option>Landing Page</option>
+            <option>E-commerce Store</option>
+            <option>Portfolio Website</option>
+            <option>Website Redesign</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Project Details</label><textarea id="f-msg" placeholder="Tell me about your project — what you need, your timeline, and any reference sites..."></textarea></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;gap:0.6rem;" onclick="sendMsg()">
+          <svg style="width:16px;height:16px;"><use href="#ico-send"/></svg> Send Message
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">Jeremaih<span>.</span></a>
+    <p class="footer-copy">© 2025 <span class="botnam"></span> Bulus. Built with care in Nigeria.</p>
+    <div class="social-links">
+      <a href="#" class="social-link" title="GitHub"><svg><use href="#ico-github"/></svg></a>
+      <a href="#" class="social-link" title="Twitter/X"><svg><use href="#ico-twitter"/></svg></a>
+      <a href="#" class="social-link" title="LinkedIn"><svg><use href="#ico-linkedin"/></svg></a>
+      <a href="#" class="social-link" title="Fiverr"><svg><use href="#ico-fiverr"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg><use href="#ico-check"/></svg>
+  <span id="toast-msg">Message sent!</span>
+</div>
+
+<!-- The public Featured Projects mini-browser preview is now rendered
+     per-card (see projectCardHTML in script.js) and revealed on hover —
+     there's no shared full-screen modal element to host here anymore. -->
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRIVATE ADMIN DASHBOARD
+     Not part of the public portfolio. Hidden by default (display:none),
+     only reachable by navigating to this page with #admin in the URL,
+     and gated behind a client-side password prompt. See the JS/report
+     for why this is NOT real security.
+     ══════════════════════════════════════════════════════════════ -->
+<div class="admin-overlay" id="adminOverlay" aria-hidden="true">
+
+  <div class="admin-login" id="adminLogin">
+    <div class="admin-login-box">
+      <span class="admin-badge">PRIVATE</span>
+      <h2>Admin Access</h2>
+      <p class="admin-warning">
+        <svg><use href="#ico-alert"/></svg>
+        <span>This password check runs entirely in your browser. It keeps casual visitors out, but it is <strong>not real authentication</strong> — anyone can read it in the page source and bypass it.</span>
+      </p>
+      <input type="password" id="adminPassInput" placeholder="Admin password" autocomplete="off" onkeydown="if(event.key==='Enter')tryAdminLogin()">
+      <button class="btn btn-primary" onclick="tryAdminLogin()">Enter Dashboard</button>
+      <button class="btn btn-outline" onclick="closeAdmin()">Cancel</button>
+      <p class="admin-error" id="adminError"></p>
+    </div>
+  </div>
+
+  <div class="admin-panel" id="adminPanel">
+    <header class="admin-header">
+      <div>
+        <span class="admin-badge">PRIVATE</span>
+        <h2>Project Management Dashboard</h2>
+      </div>
+      <button class="btn btn-outline" onclick="closeAdmin()">Exit Dashboard</button>
+    </header>
+
+    <p class="admin-warning">
+      <svg><use href="#ico-alert"/></svg>
+      <span>Projects are saved to this browser's localStorage only — not a server or database. Clearing browser data, or opening the dashboard on another device, will not show the same data. See the report for what real persistence/auth would require.</span>
+    </p>
+
+    <section class="admin-form-section">
+      <h3>Add New Project</h3>
+      <p class="admin-form-hint">The public Featured Projects section only ever shows a live visual preview of the <strong>Project URL</strong> — no name, description, or GitHub link is ever shown to visitors. The other fields below are for your own reference in the list underneath.</p>
+      <div class="admin-form-grid">
+        <div class="form-group admin-form-full">
+          <label>Project URL</label>
+          <input type="url" id="adm-live" placeholder="https://my-project.com" required>
+        </div>
+        <div class="form-group">
+          <label>Project Name <span class="admin-field-note">(admin-only)</span></label>
+          <input type="text" id="adm-name" placeholder="My Project" required>
+        </div>
+        <div class="form-group">
+          <label>GitHub URL <span class="admin-field-note">(admin-only, optional)</span></label>
+          <input type="url" id="adm-github" placeholder="https://github.com/username/project">
+        </div>
+        <div class="form-group admin-featured-group">
+          <label><input type="checkbox" id="adm-featured" checked> Featured (shown in the public Featured Projects section)</label>
+        </div>
+        <div class="form-group admin-form-full">
+          <label>Description <span class="admin-field-note">(admin-only, optional)</span></label>
+          <textarea id="adm-desc" placeholder="Short project description — for your own reference only"></textarea>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="addProject()">
+        <svg style="width:16px;height:16px;"><use href="#ico-send"/></svg> Add Project
+      </button>
+    </section>
+
+    <section class="admin-list-section">
+      <h3>Existing Projects</h3>
+      <div class="admin-project-list" id="adminProjectList"></div>
+    </section>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
