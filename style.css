@@ -70,6 +70,7 @@ nav {
     backdrop-filter: blur(20px);
     z-index: 1000;
     transition: background 0.3s;
+    justify-content: space-between;
 }
 
 [data-theme="light"] nav {
@@ -106,6 +107,12 @@ nav {
 
 .nav-links a:hover {
     color: var(--text);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
 }
 
 .theme-toggle {
