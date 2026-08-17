@@ -196,11 +196,6 @@ function renderFeaturedProjects() {
   wireProjectPreviews(grid);
 }
 
-loadProjects().then(() => {
-  renderFeaturedProjects();
-  updateAdminVisibility();
-});
-
 // ─── INLINE MINI-BROWSER PREVIEW ───────────────────────────────
 // Hovering (or tapping/focusing, for touch and keyboard users — hover
 // doesn't exist on touch, so click/Enter is the same trigger, not a
@@ -310,16 +305,39 @@ window.addEventListener('keydown', e => {
 // ══════════════════════════════════════════════════════════════
 // PRIVATE ADMIN DASHBOARD
 //
-// SECURITY NOTE (read this before relying on it):
-// This gate is a hardcoded string compared entirely in client-side JS.
-// It is trivial to bypass — anyone can open DevTools, read ADMIN_PASSWORD
-// below, or just run `sessionStorage.setItem('jb_admin_authed','1')` and
-// reload. It stops a casual visitor from stumbling into the dashboard;
-// it does NOT stop a determined one. It is not a substitute for real
-// authentication. See the implementation report for what that requires.
+// Gated by real Supabase Auth via GitHub OAuth, not a client-side
+// secret. Signing in with ANY GitHub account produces a valid
+// Supabase session — this file has no way to tell the admin's GitHub
+// account apart from anyone else's. That distinction is enforced where
+// it actually matters: the RLS policies on the projects table check
+// the signed-in user's identity (auth.uid()/email), not just "some
+// authenticated session exists". A non-admin GitHub account can reach
+// this panel and click its buttons, but every insert/update/delete
+// will be rejected by Postgres and surfaced as the same "Failed to
+// save/update/delete" alert used for any other write error.
 // ─────────────────────────────────────────────────────────────
-const ADMIN_PASSWORD = 'jeremaih-admin';
-const ADMIN_SESSION_KEY = 'jb_admin_authed';
+let currentSession = null;
+
+// Supabase's OAuth redirect strips/mangles a hash fragment placed in
+// redirectTo (see supabase/auth#90) — the code param it appends on
+// return can end up stuck inside our own "#admin" fragment instead of
+// the query string, so detectSessionInUrl never finds it and no
+// session is ever picked up. redirectTo below is deliberately just the
+// bare page URL for that reason. GitHub OAuth only exists in this app
+// for admin login, so a fresh SIGNED_IN event (as opposed to
+// INITIAL_SESSION, which fires for an already-persisted session on a
+// normal page load) unambiguously means "just finished logging in" —
+// safe to route to #admin from here instead of via the redirect URL.
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  currentSession = session;
+  if (event === 'SIGNED_IN' && window.location.hash !== '#admin') {
+    window.location.hash = 'admin';
+  }
+  loadProjects().then(() => {
+    renderFeaturedProjects();
+    updateAdminVisibility();
+  });
+});
 
 function isAdminHash() {
   return window.location.hash === '#admin';
@@ -340,7 +358,7 @@ function updateAdminVisibility() {
   overlay.classList.add('show');
   overlay.setAttribute('aria-hidden', 'false');
 
-  if (sessionStorage.getItem(ADMIN_SESSION_KEY) === '1') {
+  if (currentSession) {
     login.style.display = 'none';
     panel.style.display = 'block';
     renderAdminList();
@@ -350,21 +368,21 @@ function updateAdminVisibility() {
   }
 }
 
-function tryAdminLogin() {
-  const input = document.getElementById('adminPassInput');
+async function tryAdminLogin() {
   const errorEl = document.getElementById('adminError');
-  if (input.value === ADMIN_PASSWORD) {
-    sessionStorage.setItem(ADMIN_SESSION_KEY, '1');
-    errorEl.textContent = '';
-    input.value = '';
-    updateAdminVisibility();
-  } else {
-    errorEl.textContent = 'Incorrect password.';
-  }
+  const { error } = await supabaseClient.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.origin + window.location.pathname },
+  });
+  // On success this navigates away to GitHub immediately, so there's no
+  // local state to update — the browser lands back here post-auth and
+  // onAuthStateChange picks up the new session. This only fires for
+  // client-side failures (e.g. the provider isn't enabled).
+  if (error) errorEl.textContent = 'GitHub sign-in failed: ' + error.message;
 }
 
-function closeAdmin() {
-  sessionStorage.removeItem(ADMIN_SESSION_KEY);
+async function closeAdmin() {
+  await supabaseClient.auth.signOut();
   history.replaceState(null, '', window.location.pathname + window.location.search);
   updateAdminVisibility();
 }

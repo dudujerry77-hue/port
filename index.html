@@ -482,8 +482,10 @@
      PRIVATE ADMIN DASHBOARD
      Not part of the public portfolio. Hidden by default (display:none),
      only reachable by navigating to this page with #admin in the URL,
-     and gated behind a client-side password prompt. See the JS/report
-     for why this is NOT real security.
+     and gated behind real Supabase Auth via GitHub OAuth (see
+     tryAdminLogin in script.js) — write access to the projects table is
+     enforced server-side by RLS policies scoped to this one admin
+     identity, not by this UI.
      ══════════════════════════════════════════════════════════════ -->
 <div class="admin-overlay" id="adminOverlay" aria-hidden="true">
 
@@ -493,10 +495,9 @@
       <h2>Admin Access</h2>
       <p class="admin-warning">
         <svg><use href="#ico-alert"/></svg>
-        <span>This password check runs entirely in your browser. It keeps casual visitors out, but it is <strong>not real authentication</strong> — anyone can read it in the page source and bypass it.</span>
+        <span>Signs in via GitHub through Supabase Auth. Only the authorized admin's GitHub account can add, edit, or delete projects — enforced by database-level access rules, not by this screen.</span>
       </p>
-      <input type="password" id="adminPassInput" placeholder="Admin password" autocomplete="off" onkeydown="if(event.key==='Enter')tryAdminLogin()">
-      <button class="btn btn-primary" onclick="tryAdminLogin()">Enter Dashboard</button>
+      <button class="btn btn-primary" onclick="tryAdminLogin()">Continue with GitHub</button>
       <button class="btn btn-outline" onclick="closeAdmin()">Cancel</button>
       <p class="admin-error" id="adminError"></p>
     </div>
