@@ -2,30 +2,29 @@
 // ══════════════════════════════════════════════════════════════
 // PROJECT DATA + PUBLIC "FEATURED PROJECTS" RENDERING
 //
-// Projects are stored as plain objects:
-//   { id, name, description, githubUrl, liveUrl, featured }
-// and persisted to localStorage. The admin dashboard (further below)
-// writes to this same store; the public Featured Projects section
+// Projects live in Supabase (table: projects) — that table is the single
+// source of truth. Rows use snake_case columns (github_url, live_url);
+// mapRowToProject() converts each row to the plain-object shape the rest
+// of this file already works with: { id, name, description, githubUrl,
+// liveUrl, featured }. The admin dashboard (further below) writes
+// directly to that table; the public Featured Projects section
 // (#projectsGrid) only ever reads from it. name/description/githubUrl
 // exist purely so the admin can tell projects apart in their own
 // dashboard list — the public grid is 100% visual and never renders
 // them (see renderFeaturedProjects). Only featured:true projects that
 // also have a liveUrl show up publicly, since a "visual preview of the
 // actual site" has nothing to show without one.
+//
+// projectsCache is a local in-memory mirror of that table, kept in sync
+// by loadProjects() so the rest of the file (openProjectPreview,
+// renderAdminList, etc.) can keep reading getProjects() synchronously
+// instead of every call site needing to be async.
 // ─────────────────────────────────────────────────────────────
-const PROJECTS_STORAGE_KEY = 'jb_portfolio_projects_v1';
+const SUPABASE_URL = 'https://vlvvxmdbowsmjrdhezxs.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_48f2a8nLvxNyNMh7fwRugw_vmB5mphV';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// These placeholder entries (from before the dashboard existed) have no
-// liveUrl, so under the visual-only public grid they intentionally
-// won't appear until real URLs are added via the admin dashboard.
-const DEFAULT_PROJECTS = [
-  { id: 'seed-1', name: 'DRIP STORE — Streetwear E-commerce', description: "Dark-themed fashion store with cart system, WhatsApp checkout, admin dashboard, and localStorage persistence. Glassmorphism UI with smooth animations.", githubUrl: '#contact', liveUrl: '', featured: true },
-  { id: 'seed-2', name: 'GrubGlass — Food Ordering App', description: "Premium food ordering platform with glassmorphism UI, customer management, admin panel, and a loyalty gift system. Mobile-first and fully responsive.", githubUrl: '#contact', liveUrl: '', featured: true },
-  { id: 'seed-3', name: 'KOVA — Luxury Fashion Store', description: "High-end fashion e-commerce store with Paystack payment integration, smooth product browsing, cart system, and admin dashboard.", githubUrl: '#contact', liveUrl: '', featured: true },
-  { id: 'seed-4', name: 'Elite Cuts — Barbershop Website', description: "Professional barbershop website with full admin dashboard, appointment booking, service management, and customer records. Clean dark aesthetic.", githubUrl: '#contact', liveUrl: '', featured: true },
-  { id: 'seed-5', name: 'Market Hub AI — Multi-vendor SaaS', description: "Ambitious multi-vendor marketplace platform with AI features, vendor dashboards, real-time data, and Nigerian payment integration.", githubUrl: '#contact', liveUrl: '', featured: true },
-  { id: 'seed-6', name: 'LUXE — Premium Lifestyle Store', description: "Ultra-premium e-commerce experience with Three.js background animations, cinematic product reveals, and an immersive dark aesthetic.", githubUrl: '#contact', liveUrl: '', featured: true },
-];
+let projectsCache = [];
 
 function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -35,17 +34,32 @@ function hostnameFor(url) {
   try { return new URL(url).hostname; } catch (e) { return url; }
 }
 
-function getProjects() {
-  try {
-    const raw = localStorage.getItem(PROJECTS_STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch (e) { /* corrupted storage — fall back to defaults below */ }
-  saveProjects(DEFAULT_PROJECTS);
-  return DEFAULT_PROJECTS;
+function mapRowToProject(row) {
+  return {
+    id: row.id,
+    name: row.name,
+    description: row.description,
+    githubUrl: row.github_url,
+    liveUrl: row.live_url,
+    featured: row.featured,
+  };
 }
 
-function saveProjects(list) {
-  localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(list));
+async function loadProjects() {
+  const { data, error } = await supabaseClient
+    .from('projects')
+    .select('*')
+    .order('created_at', { ascending: true });
+  if (error) {
+    console.error('Failed to load projects from Supabase:', error);
+    projectsCache = [];
+    return;
+  }
+  projectsCache = (data || []).map(mapRowToProject);
+}
+
+function getProjects() {
+  return projectsCache;
 }
 
 // A public card shows the live site itself, previewed edge to edge —
@@ -182,7 +196,10 @@ function renderFeaturedProjects() {
   wireProjectPreviews(grid);
 }
 
-renderFeaturedProjects();
+loadProjects().then(() => {
+  renderFeaturedProjects();
+  updateAdminVisibility();
+});
 
 // ─── INLINE MINI-BROWSER PREVIEW ───────────────────────────────
 // Hovering (or tapping/focusing, for touch and keyboard users — hover
@@ -352,7 +369,7 @@ function closeAdmin() {
   updateAdminVisibility();
 }
 
-function addProject() {
+async function addProject() {
   const liveUrl = document.getElementById('adm-live').value.trim();
   const name = document.getElementById('adm-name').value.trim();
   const description = document.getElementById('adm-desc').value.trim();
@@ -368,29 +385,43 @@ function addProject() {
     return;
   }
 
-  const list = getProjects();
-  list.push({
-    id: 'p-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
-    name, description, githubUrl, liveUrl, featured,
+  const { error } = await supabaseClient.from('projects').insert({
+    name, description, github_url: githubUrl, live_url: liveUrl, featured,
   });
-  saveProjects(list);
+  if (error) {
+    alert('Failed to save project: ' + error.message);
+    return;
+  }
 
   ['adm-name', 'adm-desc', 'adm-github', 'adm-live'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('adm-featured').checked = true;
 
+  await loadProjects();
   renderAdminList();
   renderFeaturedProjects();
 }
 
-function deleteProject(id) {
+async function deleteProject(id) {
   if (!confirm('Delete this project?')) return;
-  saveProjects(getProjects().filter(p => p.id !== id));
+  const { error } = await supabaseClient.from('projects').delete().eq('id', id);
+  if (error) {
+    alert('Failed to delete project: ' + error.message);
+    return;
+  }
+  await loadProjects();
   renderAdminList();
   renderFeaturedProjects();
 }
 
-function toggleFeatured(id) {
-  saveProjects(getProjects().map(p => p.id === id ? { ...p, featured: !p.featured } : p));
+async function toggleFeatured(id) {
+  const project = getProjects().find(p => p.id === id);
+  if (!project) return;
+  const { error } = await supabaseClient.from('projects').update({ featured: !project.featured }).eq('id', id);
+  if (error) {
+    alert('Failed to update project: ' + error.message);
+    return;
+  }
+  await loadProjects();
   renderAdminList();
   renderFeaturedProjects();
 }
@@ -492,10 +523,42 @@ themeBtn.addEventListener('click',()=>{
 });
 
 // ─── MOBILE MENU ───────────────────────────────────────────────
-const ham=document.getElementById('hamburger');
-const mob=document.getElementById('mobMenu');
-ham.addEventListener('click',()=>mob.classList.toggle('open'));
-function closeMob(){mob.classList.remove('open');}
+// const ham=document.getElementById('hamburger');
+// const mob=document.getElementById('mobMenu');
+// ham.addEventListener('click',()=>mob.classList.toggle('open'));
+// function closeMob(){mob.classList.remove('open');}
+const ham = document.getElementById('hamburger');
+const mob = document.getElementById('mobMenu');
+
+ham.addEventListener('click', (e) => {
+  e.stopPropagation();
+
+  mob.classList.toggle('open');
+
+  // Stop/start body scrolling
+  document.body.style.overflow = mob.classList.contains('open')
+    ? 'hidden'
+    : '';
+
+    
+});
+
+// Close when clicking outside the menu
+document.addEventListener('click', (e) => {
+  if (
+    mob.classList.contains('open') &&
+    !mob.contains(e.target) &&
+    !ham.contains(e.target)
+  ) {
+    closeMob();
+  }
+});
+
+function closeMob() {
+  mob.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
 
 // ─── FAQ ───────────────────────────────────────────────────────
 function toggleFaq(btn){

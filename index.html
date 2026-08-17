@@ -513,7 +513,7 @@
 
     <p class="admin-warning">
       <svg><use href="#ico-alert"/></svg>
-      <span>Projects are saved to this browser's localStorage only — not a server or database. Clearing browser data, or opening the dashboard on another device, will not show the same data. See the report for what real persistence/auth would require.</span>
+      <span>Projects are saved to Supabase, so they're shared across every browser and device. The password check above is still client-side only — see the note on this screen for what that does and doesn't protect against.</span>
     </p>
 
     <section class="admin-form-section">
@@ -552,6 +552,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="script.js"></script>
 </body>
 </html>
