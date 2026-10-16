@@ -20,9 +20,73 @@
 // renderAdminList, etc.) can keep reading getProjects() synchronously
 // instead of every call site needing to be async.
 // ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
+// STATIC PROJECTS — the public Featured Projects section is built from
+// this list, directly in the page. No database or hosting needed: to add
+// a project, add one more object here.
+// ─────────────────────────────────────────────────────────────
+const STATIC_PROJECTS = [
+  {
+    id: 'grubglass',
+    name: 'GrubGlass',
+    description: 'Food ordering web app with menu, favourites, cart, order history and an admin dashboard. Orders go straight to WhatsApp.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/webapp/',
+    githubUrl: 'https://github.com/dudujerry77-hue/webapp',
+    featured: true,
+  },
+  {
+    id: 'forge-gym',
+    name: 'FORGE Fitness',
+    description: 'Gym website with membership plans, trainer profiles, BMI calculator, FAQ and contact form.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/gymweb/',
+    githubUrl: 'https://github.com/dudujerry77-hue/gymweb',
+    featured: true,
+  },
+  {
+    id: 'blossom',
+    name: 'Blossom Restaurant',
+    description: 'Restaurant website with a menu, favourites, cart and one-tap ordering on WhatsApp.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/bloss/',
+    githubUrl: 'https://github.com/dudujerry77-hue/bloss',
+    featured: true,
+  },
+  {
+    id: 'maison-table',
+    name: 'Maison Table',
+    description: 'Restaurant delivery site with categories, cart, saved dishes and a customer profile page.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/rest/',
+    githubUrl: 'https://github.com/dudujerry77-hue/rest',
+    featured: true,
+  },
+  {
+    id: 'kova-store',
+    name: 'KOVA Store',
+    description: 'Online store with product listing, cart and an admin panel for adding and managing products.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/dev/',
+    githubUrl: 'https://github.com/dudujerry77-hue/dev',
+    featured: true,
+  },
+];
+
+// Draw the projects as soon as this file runs (the grid exists already,
+// because this script is loaded at the end of the page). Defined above
+// the Supabase setup on purpose, so the section still shows even if the
+// Supabase script fails to load.
+renderFeaturedProjects();
+
 const SUPABASE_URL = 'https://vlvvxmdbowsmjrdhezxs.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_48f2a8nLvxNyNMh7fwRugw_vmB5mphV';
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// The Supabase library is only needed by the private admin dashboard.
+// If it fails to load (offline, blocked, CDN down), the rest of this file
+// must still run, so the public site never depends on it.
+const supabaseClient = (window.supabase && window.supabase.createClient)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
 
 let projectsCache = [];
 
@@ -46,6 +110,7 @@ function mapRowToProject(row) {
 }
 
 async function loadProjects() {
+  if (!supabaseClient) { projectsCache = []; return; }
   const { data, error } = await supabaseClient
     .from('projects')
     .select('*')
@@ -108,6 +173,7 @@ function projectCardHTML(p) {
               <button type="button" onclick="shareProject(${jsAttr(p.liveUrl)}, ${jsAttr(p.name || host)})"><svg><use href="#ico-send"/></svg> Share</button>
             </div>
           </div>
+          <button class="pm-expand" type="button" title="Open in bigger window" aria-label="Open in bigger window" onclick="openProjectModal(${jsAttr(p.liveUrl)}, ${jsAttr(p.name || host)})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
           <button class="pm-close" type="button" aria-label="Close preview" onclick="deactivateShowcase(this.closest('.project-showcase'))">&times;</button>
         </div>
         <div class="pm-body">
@@ -122,13 +188,108 @@ function projectCardHTML(p) {
     </div>`;
 }
 
+// One project = the live preview card + a caption underneath with the
+// name, a short description, the tech used, and two buttons.
+function projectItemHTML(p) {
+  const tags = (p.tags || []).map(t => `<span class="project-tag">${escapeHtml(t)}</span>`).join('');
+  const github = p.githubUrl
+    ? `<a class="btn-sm btn-sm-ghost" href="${escapeHtml(p.githubUrl)}" target="_blank" rel="noopener noreferrer">View code</a>`
+    : '';
+  return `
+    <article class="project-item">
+      ${projectCardHTML(p)}
+      <div class="project-meta">
+        <h3 class="project-name">${escapeHtml(p.name)}</h3>
+        <p class="project-desc">${escapeHtml(p.description || '')}</p>
+        <div class="project-tags">${tags}</div>
+        <div class="project-links">
+          <a class="btn-sm btn-sm-solid" href="${escapeHtml(p.liveUrl)}" target="_blank" rel="noopener noreferrer">Live site</a>
+          ${github}
+        </div>
+      </div>
+    </article>`;
+}
+
+// The resting preview shows the site at desktop width (1280px) shrunk to
+// fit the card, so the visitor sees the whole page layout at a glance,
+// not a cropped phone-sized corner of it. Re-fitted whenever the card
+// changes size (window resize, rotating a phone, etc.).
+function fitPreviewFrame(wrap, iframe) {
+  // function-local on purpose: this runs during the very first render at
+  // the top of the file, before any later top-level const would exist
+  const PREVIEW_DESKTOP_WIDTH = 1280;
+  const w = wrap.clientWidth;
+  const h = wrap.clientHeight;
+  if (!w || !h) return;
+  const scale = w / PREVIEW_DESKTOP_WIDTH;
+  iframe.style.width = PREVIEW_DESKTOP_WIDTH + 'px';
+  iframe.style.height = (h / scale) + 'px';
+  iframe.style.transform = 'scale(' + scale + ')';
+  iframe.style.transformOrigin = 'top left';
+}
+
 function wireProjectPreviews(root) {
   root.querySelectorAll('.pp-frame-wrap').forEach(wrap => {
     const iframe = wrap.querySelector('.pp-frame');
     const fallback = wrap.querySelector('.pp-fallback');
     if (!iframe || !fallback) return;
+    fitPreviewFrame(wrap, iframe);
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => fitPreviewFrame(wrap, iframe)).observe(wrap);
+    } else {
+      window.addEventListener('resize', () => fitPreviewFrame(wrap, iframe));
+    }
     detectEmbedBlocked(iframe, () => fallback.classList.add('show'));
   });
+}
+
+// ─── BIGGER WINDOW ─────────────────────────────────────────────
+// The expand button in the mini-browser header opens the project in a
+// large window over the page (about 94% of the screen), with its own
+// close button and an "open in new tab" button. Closes with the X,
+// the Escape key, or a click on the dark area around it.
+let projectModal = null;
+
+function ensureProjectModal() {
+  if (projectModal) return projectModal;
+  const el = document.createElement('div');
+  el.className = 'proj-modal';
+  el.setAttribute('role', 'dialog');
+  el.setAttribute('aria-modal', 'true');
+  el.setAttribute('aria-label', 'Project preview');
+  el.innerHTML = `
+    <div class="proj-modal-box">
+      <div class="pm-chrome">
+        <span class="bc-dot bc-r"></span><span class="bc-dot bc-y"></span><span class="bc-dot bc-g"></span>
+        <span class="bc-addr">&#128274; <span class="bc-url"></span></span>
+        <button class="pm-expand pjm-newtab" type="button" title="Open in new tab" aria-label="Open in new tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></button>
+        <button class="pm-close pjm-close" type="button" aria-label="Close window">&times;</button>
+      </div>
+      <div class="proj-modal-body"><iframe class="proj-modal-frame" src="about:blank" title="Project preview"></iframe></div>
+    </div>`;
+  el.addEventListener('click', e => { if (e.target === el) closeProjectModal(); });
+  el.querySelector('.pjm-close').addEventListener('click', closeProjectModal);
+  document.body.appendChild(el);
+  projectModal = el;
+  return el;
+}
+
+function openProjectModal(liveUrl, name) {
+  // close the small popover first, so only the big window is on screen
+  if (activeShowcase) deactivateShowcase(activeShowcase);
+  const el = ensureProjectModal();
+  el.querySelector('.bc-url').textContent = hostnameFor(liveUrl) + (name ? '  ·  ' + name : '');
+  el.querySelector('.pjm-newtab').onclick = () => window.open(liveUrl, '_blank', 'noopener,noreferrer');
+  el.querySelector('.proj-modal-frame').src = liveUrl;
+  el.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjectModal() {
+  if (!projectModal) return;
+  projectModal.classList.remove('open');
+  projectModal.querySelector('.proj-modal-frame').src = 'about:blank';
+  document.body.style.overflow = '';
 }
 
 // Block detection — tried hard, and it genuinely cannot be done
@@ -175,7 +336,10 @@ function detectEmbedBlocked(iframe, onBlocked, timeoutMs = 10000) {
   };
   iframe.addEventListener('load', () => finish(false));
   iframe.addEventListener('error', () => finish(true));
-  setTimeout(() => finish(true), timeoutMs);
+  // No timeout fallback any more. A slow page (lots of images) used to be
+  // marked "Preview unavailable" after 10 seconds even though it was still
+  // loading fine. GitHub Pages sites allow embedding, so the frame is
+  // simply left to finish loading.
 }
 
 function renderFeaturedProjects() {
@@ -185,14 +349,18 @@ function renderFeaturedProjects() {
   // to preview. A project with no liveUrl has nothing to visually show,
   // so (unlike earlier versions of this section) it's simply not
   // rendered publicly rather than falling back to a logo/gradient card.
-  const projects = getProjects().filter(p => p.featured && p.liveUrl);
+  // The public list is the static one defined at the top of this file.
+  // It is drawn once, so later admin actions do not reload every preview.
+  if (grid.dataset.rendered === '1') return;
+  const projects = STATIC_PROJECTS.filter(p => p.featured && p.liveUrl);
 
   if (projects.length === 0) {
     grid.innerHTML = '<p class="projects-empty">New projects coming soon.</p>';
     return;
   }
 
-  grid.innerHTML = projects.map(p => projectCardHTML(p)).join('');
+  grid.innerHTML = projects.map(p => projectItemHTML(p)).join('');
+  grid.dataset.rendered = '1';
   wireProjectPreviews(grid);
 }
 
@@ -211,7 +379,7 @@ let closeTimer = null;
 
 function openProjectPreview(wrapper) {
   const id = wrapper.dataset.projectId;
-  const project = getProjects().find(p => p.id === id);
+  const project = STATIC_PROJECTS.find(p => p.id === id);
   if (!project || !project.liveUrl) return;
 
   clearTimeout(closeTimer);
@@ -299,7 +467,9 @@ document.addEventListener('click', e => {
 });
 
 window.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && activeShowcase) deactivateShowcase(activeShowcase);
+  if (e.key !== 'Escape') return;
+  if (projectModal && projectModal.classList.contains('open')) { closeProjectModal(); return; }
+  if (activeShowcase) deactivateShowcase(activeShowcase);
 });
 
 // ══════════════════════════════════════════════════════════════
@@ -328,7 +498,7 @@ let currentSession = null;
 // INITIAL_SESSION, which fires for an already-persisted session on a
 // normal page load) unambiguously means "just finished logging in" —
 // safe to route to #admin from here instead of via the redirect URL.
-supabaseClient.auth.onAuthStateChange((event, session) => {
+if (supabaseClient) supabaseClient.auth.onAuthStateChange((event, session) => {
   currentSession = session;
   if (event === 'SIGNED_IN' && window.location.hash !== '#admin') {
     window.location.hash = 'admin';
