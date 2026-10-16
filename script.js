@@ -2,7 +2,7 @@
 // ══════════════════════════════════════════════════════════════
 // PROJECT DATA + PUBLIC "FEATURED PROJECTS" RENDERING
 //
-// Projects live in Supabase (table: projects) — that table is the single
+// Projects live in Supabase (table: projects) that table is the single
 // source of truth. Rows use snake_case columns (github_url, live_url);
 // mapRowToProject() converts each row to the plain-object shape the rest
 // of this file already works with: { id, name, description, githubUrl,
@@ -10,7 +10,7 @@
 // directly to that table; the public Featured Projects section
 // (#projectsGrid) only ever reads from it. name/description/githubUrl
 // exist purely so the admin can tell projects apart in their own
-// dashboard list — the public grid is 100% visual and never renders
+// dashboard list the public grid is 100% visual and never renders
 // them (see renderFeaturedProjects). Only featured:true projects that
 // also have a liveUrl show up publicly, since a "visual preview of the
 // actual site" has nothing to show without one.
@@ -21,7 +21,7 @@
 // instead of every call site needing to be async.
 // ─────────────────────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────────
-// STATIC PROJECTS — the public Featured Projects section is built from
+// STATIC PROJECTS the public Featured Projects section is built from
 // this list, directly in the page. No database or hosting needed: to add
 // a project, add one more object here.
 // ─────────────────────────────────────────────────────────────
@@ -127,10 +127,10 @@ function getProjects() {
   return projectsCache;
 }
 
-// A public card shows the live site itself, previewed edge to edge —
+// A public card shows the live site itself, previewed edge to edge
 // no title, description, or buttons at rest. Hovering (or tapping, on
 // touch) grows an interactive mini-browser over the same spot. The
-// resting preview's iframe is pointer-events:none — it's a passive
+// resting preview's iframe is pointer-events:none it's a passive
 // visual; the mini-browser underneath it is the real interactive one,
 // only present in the DOM's hit-testing once .active is applied.
 //
@@ -138,7 +138,7 @@ function getProjects() {
 // an inline HTML event-handler attribute: JSON.stringify() gives valid,
 // fully-escaped JS source (handles quotes/backslashes/unicode), and
 // wrapping that in escapeHtml() escapes the quote characters so they
-// survive sitting inside an HTML attribute — the browser decodes the
+// survive sitting inside an HTML attribute the browser decodes the
 // HTML entities back to `"` before treating the attribute as JS, so the
 // script that actually runs is exactly the JSON.stringify() output.
 function jsAttr(value) {
@@ -203,7 +203,7 @@ function projectItemHTML(p) {
         <p class="project-desc">${escapeHtml(p.description || '')}</p>
         <div class="project-tags">${tags}</div>
         <div class="project-links">
-          <a class="btn-sm btn-sm-solid" href="${escapeHtml(p.liveUrl)}" target="_blank" rel="noopener noreferrer">Live site</a>
+           <a class="btn-sm btn-sm-solid" href="${escapeHtml(p.liveUrl)}" target="_blank" rel="noopener noreferrer">Live site</a>
           ${github}
         </div>
       </div>
@@ -292,7 +292,7 @@ function closeProjectModal() {
   document.body.style.overflow = '';
 }
 
-// Block detection — tried hard, and it genuinely cannot be done
+// Block detection tried hard, and it genuinely cannot be done
 // reliably from client-side JS. Documented in detail because it would
 // be worse to silently ship something that looks like it works.
 //
@@ -303,24 +303,24 @@ function closeProjectModal() {
 //     ALSO fires 'load' (at the same speed), never 'error'.
 //   - A fully nonexistent domain (DNS failure): ALSO fires 'load'
 //     (Chromium's internal "can't reach this page" error page counts
-//     as a completed navigation) — often within a few hundred ms —
+//     as a completed navigation) often within a few hundred ms
 //     and 'error' still never fires.
 // So 'load' fires identically in every case, and 'error' effectively
 // never fires at all for cross-origin iframe navigation in Chromium.
 // (An earlier version of this tried reading iframe.contentWindow after
-// load to see if it was still "about:blank" — that also fails, because
+// load to see if it was still "about:blank" that also fails, because
 // Chromium assigns the frame the target's origin as soon as navigation
 // is attempted, whether or not it then refuses to render the response,
 // so the read throws the same cross-origin SecurityError either way.)
 //
 // The only thing left that's real: a timeout for a frame that never
 // fires 'load' at all (a server that accepts the connection but never
-// responds). That's a narrow, uncommon case — it will NOT catch
+// responds). That's a narrow, uncommon case it will NOT catch
 // X-Frame-Options/CSP frame-ancestors blocks, 404s, or DNS failures,
 // because all of those fire 'load' quickly just like a real embed.
 // In practice, when a site refuses to be framed, visitors will most
 // likely see the browser's own built-in "refused to connect" placeholder
-// inside the frame rather than our "Preview unavailable" message —
+// inside the frame rather than our "Preview unavailable" message
 // Chromium does render something there itself, it's just not something
 // this page's JS can detect and swap out. Closing this gap for real
 // would require a backend to check response headers server-side, which
@@ -365,13 +365,13 @@ function renderFeaturedProjects() {
 }
 
 // ─── INLINE MINI-BROWSER PREVIEW ───────────────────────────────
-// Hovering (or tapping/focusing, for touch and keyboard users — hover
+// Hovering (or tapping/focusing, for touch and keyboard users hover
 // doesn't exist on touch, so click/Enter is the same trigger, not a
 // separate code path) grows an interactive mini-browser directly over
 // the project card. Because .mini-browser-popover is a DOM *child* of
 // .project-showcase, moving the pointer from the base preview into the
-// popover never fires 'mouseleave' on the wrapper — that event ignores
-// moves onto descendant elements by definition — so "stay open while
+// popover never fires 'mouseleave' on the wrapper that event ignores
+// moves onto descendant elements by definition so "stay open while
 // moving from the preview into the mini-browser" needs no manual
 // hit-testing or hover-bridging, just normal DOM nesting.
 let activeShowcase = null;
@@ -402,7 +402,7 @@ function openProjectPreview(wrapper) {
 // pointer briefly leaving during fast movement, and gives the CSS
 // opacity/scale transition something to animate. Cancelled by
 // openProjectPreview() if the pointer re-enters (the wrapper or the
-// popover — same element as far as 'mouseenter' on the wrapper cares).
+// popover same element as far as 'mouseenter' on the wrapper cares).
 function scheduleClosePreview() {
   clearTimeout(closeTimer);
   closeTimer = setTimeout(() => {
@@ -437,7 +437,7 @@ async function shareProject(liveUrl, name) {
   document.querySelectorAll('.pm-menu.open').forEach(m => m.classList.remove('open'));
   if (navigator.share) {
     try { await navigator.share({ title: name, url: liveUrl }); }
-    catch (e) { /* user dismissed the native share sheet — not an error */ }
+    catch (e) { /* user dismissed the native share sheet not an error */ }
     return;
   }
   if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -445,7 +445,7 @@ async function shareProject(liveUrl, name) {
       await navigator.clipboard.writeText(liveUrl);
       showToast('Link copied to clipboard!', '#ico-check');
       return;
-    } catch (e) { /* clipboard permission denied — fall through to prompt */ }
+    } catch (e) { /* clipboard permission denied fall through to prompt */ }
   }
   window.prompt('Copy this link:', liveUrl);
 }
@@ -454,8 +454,8 @@ async function shareProject(liveUrl, name) {
 // its "⋮" dropdown (so picking an action then clicking elsewhere in the
 // popover dismisses the menu without also closing the whole preview).
 // Clicks that land *inside* the live iframe never reach this listener
-// at all — cross-origin frame content doesn't bubble click events into
-// the parent document — so interacting with the embedded site can never
+// at all cross-origin frame content doesn't bubble click events into
+// the parent document so interacting with the embedded site can never
 // accidentally trigger this.
 document.addEventListener('click', e => {
   document.querySelectorAll('.pm-menu.open').forEach(menu => {
@@ -477,7 +477,7 @@ window.addEventListener('keydown', e => {
 //
 // Gated by real Supabase Auth via GitHub OAuth, not a client-side
 // secret. Signing in with ANY GitHub account produces a valid
-// Supabase session — this file has no way to tell the admin's GitHub
+// Supabase session this file has no way to tell the admin's GitHub
 // account apart from anyone else's. That distinction is enforced where
 // it actually matters: the RLS policies on the projects table check
 // the signed-in user's identity (auth.uid()/email), not just "some
@@ -489,14 +489,14 @@ window.addEventListener('keydown', e => {
 let currentSession = null;
 
 // Supabase's OAuth redirect strips/mangles a hash fragment placed in
-// redirectTo (see supabase/auth#90) — the code param it appends on
+// redirectTo (see supabase/auth#90) the code param it appends on
 // return can end up stuck inside our own "#admin" fragment instead of
 // the query string, so detectSessionInUrl never finds it and no
 // session is ever picked up. redirectTo below is deliberately just the
 // bare page URL for that reason. GitHub OAuth only exists in this app
 // for admin login, so a fresh SIGNED_IN event (as opposed to
 // INITIAL_SESSION, which fires for an already-persisted session on a
-// normal page load) unambiguously means "just finished logging in" —
+// normal page load) unambiguously means "just finished logging in"
 // safe to route to #admin from here instead of via the redirect URL.
 if (supabaseClient) supabaseClient.auth.onAuthStateChange((event, session) => {
   currentSession = session;
@@ -545,7 +545,7 @@ async function tryAdminLogin() {
     options: { redirectTo: window.location.origin + window.location.pathname },
   });
   // On success this navigates away to GitHub immediately, so there's no
-  // local state to update — the browser lands back here post-auth and
+  // local state to update the browser lands back here post-auth and
   // onAuthStateChange picks up the new session. This only fires for
   // client-side failures (e.g. the provider isn't enabled).
   if (error) errorEl.textContent = 'GitHub sign-in failed: ' + error.message;
@@ -564,7 +564,7 @@ async function addProject() {
   const githubUrl = document.getElementById('adm-github').value.trim();
   const featured = document.getElementById('adm-featured').checked;
 
-  // liveUrl is the one field the public site actually depends on now —
+  // liveUrl is the one field the public site actually depends on now
   // the visual preview has nothing to show without it. name is kept
   // required too since it's how projects stay identifiable in this
   // list below; description/GitHub are admin-only and optional.
@@ -769,7 +769,7 @@ window.addEventListener('scroll',()=>{
     window.scrollY>50?'rgba(255,255,255,0.14)':'rgba(255,255,255,0.08)';
 });
 
-// ─── CONTACT FORM — sends to WhatsApp ─────────────────────────
+// ─── CONTACT FORM sends to WhatsApp ─────────────────────────
 const WA_NUMBER = '2348083252950';
 
 function sendMsg(){
@@ -798,7 +798,7 @@ function sendMsg(){
   const waURL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
   window.open(waURL, '_blank');
 
-  showToast("Opening WhatsApp — message ready to send!",'#ico-check');
+  showToast("Opening WhatsApp message ready to send!",'#ico-check');
   ['f-name','f-email','f-msg','f-service'].forEach(id=>document.getElementById(id).value='');
 }
 
