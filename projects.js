@@ -53,6 +53,33 @@ const STATIC_PROJECTS = [
     githubUrl: 'https://github.com/dudujerry77-hue/dev',
     featured: true,
   },
+  {
+    id: 'expense',
+    name: 'Expense Tracker',
+    description: 'Track your expenses and income with this simple web app. View your financial history and manage your budget.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/Expenses/',
+    githubUrl: 'https://github.com/dudujerry77-hue/Expenses',
+    featured: true,
+  },
+  {
+    id: 'elite',
+    name: 'Elite Project',
+    description: 'Elite is a demo site for a fictional Abuja barbershop, featuring services, barbers, booking, a gallery, and an admin panel.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/elite/',
+    githubUrl: 'https://github.com/dudujerry77-hue/elite',
+    featured: true,
+  },
+  {
+    id: 'aura',
+    name: 'Aura Project',
+    description: 'AURA is a modern, fully responsive e-commerce clothing website built with vanilla.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    liveUrl: 'https://dudujerry77-hue.github.io/aura/',
+    githubUrl: 'https://github.com/dudujerry77-hue/aura',
+    featured: true,
+  },
 ];
 
 function escapeHtml(str) {
