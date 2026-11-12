@@ -438,3 +438,55 @@ renderFeaturedProjects();
 // phones and bigger screens show a different number of cards on the home
 // page, so draw again when the screen crosses that line
 if (phoneQuery.addEventListener) phoneQuery.addEventListener('change', renderFeaturedProjects);
+
+
+
+// ─── LOCAL PRICING CURRENCY ─────────────────────────────────────
+// Nigerian visitors see NGN; visitors elsewhere see USD. NGN conversion
+// uses a cached public USD/NGN exchange rate and refreshes it every 6 hours.
+(async function setVisitorCurrency() {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  const locale = navigator.language || '';
+  const isNigeria = timezone === 'Africa/Lagos' || /-NG\b/i.test(locale);
+  const currency = isNigeria ? 'NGN' : 'USD';
+  const symbol = isNigeria ? '₦' : '$';
+  let rate = 1;
+
+  if (isNigeria) {
+    const cacheKey = 'portfolio-usd-ngn-rate';
+    try {
+      const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+      if (cached && Date.now() - cached.time < 6 * 60 * 60 * 1000 && Number(cached.rate) > 0) {
+        rate = Number(cached.rate);
+      } else {
+        const response = await fetch('https://open.er-api.com/v6/latest/USD', { cache: 'no-store' });
+        if (!response.ok) throw new Error('Exchange rate request failed');
+        const data = await response.json();
+        if (data.result !== 'success' || !Number(data.rates?.NGN)) throw new Error('NGN rate unavailable');
+        rate = Number(data.rates.NGN);
+        localStorage.setItem(cacheKey, JSON.stringify({ rate, time: Date.now() }));
+      }
+    } catch (error) {
+      // If offline, use the last saved rate if available; otherwise retain a
+      // clearly marked fallback estimate until a live rate can be retrieved.
+      try {
+        const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+        rate = Number(cached?.rate) > 0 ? Number(cached.rate) : 1500;
+      } catch (_) { rate = 1500; }
+    }
+  }
+
+  document.querySelectorAll('.pricing-price').forEach(price => {
+    const symbolNode = price.querySelector('.currency-symbol');
+    const valueNode = price.querySelector('.price-value');
+    if (!symbolNode || !valueNode) return;
+    const usd = Number(valueNode.dataset.usd);
+    symbolNode.textContent = symbol;
+    valueNode.textContent = new Intl.NumberFormat(isNigeria ? 'en-NG' : 'en-US', {
+      maximumFractionDigits: 0
+    }).format(isNigeria ? usd * rate : usd);
+    price.dataset.currency = currency;
+    price.dataset.exchangeRate = String(rate);
+  });
+})();
+

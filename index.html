@@ -54,6 +54,7 @@
   <div class="nav-links">
     <a href="#services">Services</a>
     <a href="#projects">Projects</a>
+    <a href="#viCV" data-action="view-cv">view CV</a>
     <a href="#pricing">Pricing</a>
     <a href="#faq">FAQ</a>
     <a href="#contact" class="btn btn-primary" style="padding:0.55rem 1.3rem;font-size:0.85rem;">Hire Me</a>
@@ -80,6 +81,7 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-grid-bg"></div>
+  <div class="hero-photo-layer" aria-hidden="true"><img src="profile.jpg" alt=""></div>
   <div class="hero-glow"></div>
   <div class="container">
     <div class="hero-inner">
@@ -133,6 +135,7 @@
           <div>&nbsp;&nbsp;<span class="c-obj">}</span></div>
           <div><span class="c-obj">};</span></div>
         </div>
+        <div class="portfolio-config" id="portfolioConfig" aria-label="Editable portfolio visibility settings"></div>
       </div>
     </div>
   </div>
@@ -160,7 +163,7 @@
       <div class="service-card reveal reveal-delay-2">
         <div class="service-icon"><svg><use href="#ico-cart"/></svg></div>
         <h3>Ecommerce Stores</h3>
-        <p>Fully functional online stores with cart systems, product management, checkout, and payment integration.</p>
+        <p>Fully functional online stores with cart systems, product management, WhatsApp checkout.</p>
       </div>
       <div class="service-card reveal reveal-delay-3">
         <div class="service-icon"><svg><use href="#ico-briefcase"/></svg></div>
@@ -196,6 +199,115 @@
     </div>
   </div>
 </section>
+
+<!-- CV POPUP -->
+<div class="cv-modal" id="viCV" role="dialog" aria-modal="true" aria-label="Curriculum Vitae" aria-hidden="true">
+  <div class="cv-modal-backdrop" data-cv-close></div>
+  <div class="cv-modal-panel">
+    <div class="cv-modal-toolbar"><span>Curriculum Vitae</span><div><button type="button" class="cv-download" id="downloadCV">Download CV</button><button type="button" class="cv-close" data-cv-close aria-label="Close CV">×</button></div></div>
+    <div class="cv-modal-content">
+<header class="hero">
+  <div class="wrap">
+    <p class="role"><strong>Frontend Web Developer</strong> · Ibadan, Nigeria</p>
+    <h1>IRMIYA BULUS</h1>
+    <ul class="contact">
+      <li><a class="primary" href="tel:09016587710">Call: 09016587710</a></li>
+      <li><a href="https://wa.me/2348083252950">WhatsApp: 08083252950</a></li>
+      <li><a href="mailto:dudujerry77@gmail.com">dudujerry77@gmail.com</a></li>
+      <li><a href="https://dudujerry77-hue.github.io/port/">Portfolio: dudujerry77-hue.github.io/port</a></li>
+      <li><a href="https://github.com/dudujerry77-hue">GitHub: github.com/dudujerry77-hue</a></li>
+    </ul>
+  </div>
+</header>
+ 
+<main>
+  <section>
+    <div class="wrap row">
+      <h2>Profile</h2>
+      <p class="profile">Frontend web developer based in Ibadan, available to work on site. I build responsive, mobile-friendly websites and web apps with HTML, CSS and JavaScript, and I have 5 live projects online with the code on GitHub. I am looking for an entry-level frontend role where I can ship real work and keep growing.</p>
+    </div>
+  </section>
+ 
+  <section>
+    <div class="wrap row">
+      <h2>Skills</h2>
+      <ul class="plain">
+        <li><strong>Web development:</strong> HTML5, CSS3, JavaScript</li>
+        <li><strong>Practical skills:</strong> responsive and mobile-first design, shopping cart and favourites features, admin dashboards, forms and calculators, WhatsApp ordering links</li>
+        <li><strong>Tools:</strong> Git and GitHub, GitHub Pages deployment, VS Code</li>
+        <li><strong>Other:</strong> clear communication, fast delivery, quick learner</li>
+      </ul>
+    </div>
+  </section>
+ 
+  <section>
+    <div class="wrap row">
+      <h2>Projects (all live)</h2>
+      <ul class="projects">
+        <li>
+          <article class="card">
+            <h3>GrubGlass</h3>
+            <p>Food ordering web app with menu, favourites, cart, order history and an admin dashboard. Orders go to WhatsApp.</p>
+            <p class="stack">Built with HTML, CSS, JavaScript.</p>
+            <a class="live" href="https://dudujerry77-hue.github.io/webapp/">Live</a>
+          </article>
+        </li>
+        <li>
+          <article class="card">
+            <h3>KOVA Store</h3>
+            <p>Online store with product listing, cart and an admin panel for managing products.</p>
+            <p class="stack">Built with HTML, CSS, JavaScript.</p>
+            <a class="live" href="https://dudujerry77-hue.github.io/dev/">Live</a>
+          </article>
+        </li>
+        <li>
+          <article class="card">
+            <h3>FORGE Fitness</h3>
+            <p>Gym website with membership plans, trainer profiles, BMI calculator, FAQ and contact form.</p>
+            <p class="stack">Built with HTML, CSS, JavaScript.</p>
+            <a class="live" href="https://dudujerry77-hue.github.io/gymweb/">Live</a>
+          </article>
+        </li>
+        <li>
+          <article class="card">
+            <h3>Blossom Restaurant</h3>
+            <p>Restaurant website with menu, favourites, cart and one-tap ordering on WhatsApp.</p>
+            <p class="stack">Built with HTML, CSS, JavaScript.</p>
+            <a class="live" href="https://dudujerry77-hue.github.io/bloss/">Live</a>
+          </article>
+        </li>
+        <li>
+          <article class="card">
+            <h3>Maison Table</h3>
+            <p>Restaurant delivery site with food categories, cart, saved dishes and a customer profile page.</p>
+            <p class="stack">Built with HTML, CSS, JavaScript.</p>
+            <a class="live" href="https://dudujerry77-hue.github.io/rest/">Live</a>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+ 
+  <section>
+    <div class="wrap row">
+      <h2>Education</h2>
+      <ul class="plain">
+        <li><strong>Open American College, Ibadan</strong> – currently studying</li>
+        <li><strong>WASSCE 2025</strong> – Federal Science &amp; Technical College Zuru</li>
+      </ul>
+    </div>
+  </section>
+ 
+  <section class="last">
+    <div class="wrap row">
+      <h2>Languages</h2>
+      <p>English</p>
+    </div>
+  </section>
+</main>
+    </div>
+  </div>
+</div>
 
 <!-- WHY ME -->
 <section id="why">
@@ -292,7 +404,7 @@
 </section>
 
 <!-- PRICING -->
-<section id="pricing">
+<!-- <section id="pricing">
   <div class="container">
     <span class="eyebrow">Transparent Rates</span>
     <h2 class="section-title">Pricing Plans</h2>
@@ -345,8 +457,61 @@
       </div>
     </div>
   </div>
+</section> -->
+<section id="pricing">
+  <div class="container">
+    <span class="eyebrow">Transparent Rates</span>
+    <h2 class="section-title">Pricing Plans</h2>
+    <p class="section-sub">Simple, honest pricing. No hidden fees. Pay for what you need.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="pricing-plan">Basic</div>
+        <div class="pricing-price"><span class="currency-symbol">$</span><span class="price-value" data-usd="100">100</span></div>
+        <div class="pricing-desc">Perfect for individuals &amp; startups</div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 1 to 3 Page Website</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Mobile Responsive</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Contact Form</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Basic SEO</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 3-Day Delivery</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 1 Revision Round</li>
+        </ul>
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;" onclick="openPlanModal(this)">Get Started</button>
+      </div>
+      <div class="pricing-card featured reveal reveal-delay-1">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-plan">Standard</div>
+        <div class="pricing-price"><span class="currency-symbol">$</span><span class="price-value" data-usd="250">250</span></div>
+        <div class="pricing-desc">Ideal for growing businesses</div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Up to 7 Pages</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Mobile Responsive</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Animations &amp; Interactions</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Admin Dashboard</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Full SEO Optimization</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 5-Day Delivery</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 3 Revision Rounds</li>
+        </ul>
+        <button type="button" class="btn btn-primary" style="width:100%;justify-content:center;" onclick="openPlanModal(this)">Get Started</button>
+      </div>
+      <div class="pricing-card reveal reveal-delay-2">
+        <div class="pricing-plan">Premium</div>
+        <div class="pricing-price"><span class="currency-symbol">$</span><span class="price-value" data-usd="450">450</span></div>
+        <div class="pricing-desc">For established brands &amp; Ecommerce</div>
+        <ul class="pricing-features">
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Full Ecommerce Store</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> WhatsApp Order Checkout</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Custom Admin Panel</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Animations &amp; Interactions</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Full SEO + Performance</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> 7-Day Delivery</li>
+          <li><span class="check"><svg><use href="#ico-check"/></svg></span> Unlimited Revisions</li>
+        </ul>
+        <button type="button" class="btn btn-outline" style="width:100%;justify-content:center;" onclick="openPlanModal(this)">Get Started</button>
+      </div>
+    </div>
+  </div>
 </section>
-
 <!-- FAQ -->
 <section id="faq">
   <div class="container" style="max-width:860px;">
@@ -497,6 +662,7 @@
 </div>
 
 <script src="projects.js"></script>
+<script src="portfolio.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,17 @@
+PORTFOLIO UPDATE
+
+Replace these files in your portfolio folder:
+- index.html
+- style.css
+- script.js
+
+Add:
+- portfolio.js
+
+IMPORTANT:
+- Keep your existing projects.js in the same folder. It was not supplied with this update, so it is intentionally not overwritten.
+- Keep your existing image/profile assets and any other project files.
+- The desktop code card shows the original developer object first, followed by editable section and navigation visibility values.
+- On screens 950px wide and below, the code card is hidden.
+- The mobile sticky-card surfaces now have opaque backgrounds and blur.
+- Opening a project preview locks page scrolling; the X closes the active preview/modal, and Escape also closes it.

@@ -108,6 +108,40 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
 revEls.forEach(el=>obs.observe(el));
 
+// ─── MOBILE STICKY CARD STACKS + READING PROGRESS ───────────────
+function updateStickyCardStacks() {
+  const groups = [
+    '.services-grid', '.why-grid', '.pricing-grid', '.process-steps', '.projects-grid'
+  ];
+  groups.forEach(selector => {
+    document.querySelectorAll(selector).forEach(group => {
+      const cards = [...group.children].filter(el => el.matches(
+        '.service-card, .why-card, .pricing-card, .process-step, .project-showcase'
+      ));
+      cards.forEach((card, index) => {
+        card.style.setProperty('--stack-top', `${78 + index * 38}px`);
+        card.style.setProperty('--stack-z', String(index + 1));
+      });
+    });
+  });
+}
+updateStickyCardStacks();
+const projectStack = document.getElementById('projectsGrid');
+if (projectStack) new MutationObserver(updateStickyCardStacks).observe(projectStack, { childList: true });
+
+const progressBar = document.getElementById('pageProgress');
+const backToTop = document.getElementById('backToTop');
+function updatePageChrome() {
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+  if (progressBar) progressBar.style.width = `${progress}%`;
+  if (backToTop) backToTop.classList.toggle('show', window.scrollY > 520);
+}
+window.addEventListener('scroll', updatePageChrome, { passive: true });
+window.addEventListener('resize', updateStickyCardStacks);
+updatePageChrome();
+if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
 // ─── NAV SCROLL ────────────────────────────────────────────────
 window.addEventListener('scroll',()=>{
   document.querySelector('nav').style.borderBottomColor=
@@ -196,8 +230,8 @@ function sendPlan(kind) {
   const text = buildPlanMessage(kind);
   const type = document.getElementById('plan-type').value;
   if (kind === 'whatsapp') {
-    window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text), '_blank');
-    showToast('Opening WhatsApp — message ready to send!', '#ico-check');
+    window.open('https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text), 'blank');
+    showToast('Opening WhatsApp message ready to send!', '#ico-check');
   } else {
     const subject = currentPlan.name + ' plan (' + currentPlan.price + ') - ' + type;
     window.location.href = 'mailto:' + CONTACT_EMAIL +
@@ -259,3 +293,52 @@ function sendMsg(){
   ['f-name','f-email','f-msg','f-service'].forEach(id=>document.getElementById(id).value='');
 }
 
+
+// ─── LOCAL PRICING CURRENCY ─────────────────────────────────────
+// Nigerian visitors see NGN; visitors elsewhere see USD. NGN conversion
+// uses a cached public USD/NGN exchange rate and refreshes it every 6 hours.
+(async function setVisitorCurrency() {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  const locale = navigator.language || '';
+  const isNigeria = timezone === 'Africa/Lagos' || /-NG\b/i.test(locale);
+  const currency = isNigeria ? 'NGN' : 'USD';
+  const symbol = isNigeria ? '₦' : '$';
+  let rate = 1;
+
+  if (isNigeria) {
+    const cacheKey = 'portfolio-usd-ngn-rate';
+    try {
+      const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+      if (cached && Date.now() - cached.time < 6 * 60 * 60 * 1000 && Number(cached.rate) > 0) {
+        rate = Number(cached.rate);
+      } else {
+        const response = await fetch('https://open.er-api.com/v6/latest/USD', { cache: 'no-store' });
+        if (!response.ok) throw new Error('Exchange rate request failed');
+        const data = await response.json();
+        if (data.result !== 'success' || !Number(data.rates?.NGN)) throw new Error('NGN rate unavailable');
+        rate = Number(data.rates.NGN);
+        localStorage.setItem(cacheKey, JSON.stringify({ rate, time: Date.now() }));
+      }
+    } catch (error) {
+      // If offline, use the last saved rate if available; otherwise retain a
+      // clearly marked fallback estimate until a live rate can be retrieved.
+      try {
+        const cached = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+        rate = Number(cached?.rate) > 0 ? Number(cached.rate) : 1500;
+      } catch (_) { rate = 1500; }
+    }
+  }
+
+  document.querySelectorAll('.pricing-price').forEach(price => {
+    const symbolNode = price.querySelector('.currency-symbol');
+    const valueNode = price.querySelector('.price-value');
+    if (!symbolNode || !valueNode) return;
+    const usd = Number(valueNode.dataset.usd);
+    symbolNode.textContent = symbol;
+    valueNode.textContent = new Intl.NumberFormat(isNigeria ? 'en-NG' : 'en-US', {
+      maximumFractionDigits: 0
+    }).format(isNigeria ? usd * rate : usd);
+    price.dataset.currency = currency;
+    price.dataset.exchangeRate = String(rate);
+  });
+})();
