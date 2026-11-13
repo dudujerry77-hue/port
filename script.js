@@ -342,3 +342,23 @@ function sendMsg(){
     price.dataset.exchangeRate = String(rate);
   });
 })();
+
+
+(() => {
+  const modal = document.getElementById('viCV');
+  if (!modal) return;
+  const open = event => {
+    event.preventDefault();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('cv-open');
+  };
+  const close = () => {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('cv-open');
+  };
+  document.querySelectorAll('[data-action="view-cv"]').forEach(link => link.addEventListener('click', open));
+  modal.querySelectorAll('[data-cv-close]').forEach(button => button.addEventListener('click', close));
+  document.addEventListener('keydown', event => { if (event.key === 'Escape' && modal.classList.contains('open')) close(); });
+})();

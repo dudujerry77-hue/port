@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Irmiya Bulus – Freelance Frontend Developer & UI/UX Designer. I build modern, fast, and beautiful websites that help businesses grow.">
-<title>Irmiya Bulus — Frontend Developer</title>
+<title>Irmiya Bulus Frontend Developer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -73,6 +73,7 @@
   <a href="#services" onclick="closeMob()">Services</a>
   <a href="#projects" onclick="closeMob()">Projects</a>
   <a href="#why" onclick="closeMob()">Why Me</a>
+  <a href="" data-action="view-cv" onclick="closeMob()">viewCV</a>
   <a href="#pricing" onclick="closeMob()">Pricing</a>
   <a href="#faq" onclick="closeMob()">FAQ</a>
   <a href="#contact" onclick="closeMob()">Contact</a>
@@ -81,7 +82,7 @@
 <!-- HERO -->
 <section id="hero">
   <div class="hero-grid-bg"></div>
-  <div class="hero-photo-layer" aria-hidden="true"><img src="profile.jpg" alt=""></div>
+  <div class="hero-photo-layer" aria-hidden="true"><img src="docs/profile.jpg" alt=""></div>
   <div class="hero-glow"></div>
   <div class="container">
     <div class="hero-inner">
@@ -201,10 +202,10 @@
 </section>
 
 <!-- CV POPUP -->
-<div class="cv-modal" id="viCV" role="dialog" aria-modal="true" aria-label="Curriculum Vitae" aria-hidden="true">
+<div class="cv-modal" id="viCV">
   <div class="cv-modal-backdrop" data-cv-close></div>
   <div class="cv-modal-panel">
-    <div class="cv-modal-toolbar"><span>Curriculum Vitae</span><div><button type="button" class="cv-download" id="downloadCV">Download CV</button><button type="button" class="cv-close" data-cv-close aria-label="Close CV">×</button></div></div>
+    <div class="cv-modal-toolbar"><span>Curriculum Vitae</span><div><a class="btn btn-primary" id="downloadCV" href="docs/Irmiya_Bulus_CV.pdf" download="Irmiya_Bulus_CV.pdf">Download CV</a><button type="button" class="cv-close" data-cv-close aria-label="Close CV">×</button></div></div>
     <div class="cv-modal-content">
 <header class="hero">
   <div class="wrap">

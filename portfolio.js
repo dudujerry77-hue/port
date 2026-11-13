@@ -30,7 +30,7 @@ const portfolioVisibility = {
   topButtons: {
     services: true,
     projects: true,
-    viewCV: false,
+    viewCV: true,
     pricing: true,
     faq: true,
     hireMe: true,
